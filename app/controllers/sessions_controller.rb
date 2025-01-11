@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by!(email: login_params[:email].downcase)
     unless @user.authenticate(login_params[:password])
-      render_error(t("session.could_not_auth"), :unauthorized)
+      render_error(t("session.incorrect_credentials"), :unauthorized)
     end
   end
 

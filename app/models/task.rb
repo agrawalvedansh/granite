@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
+  after_create :log_task_details
+
   RESTRICTED_ATTRIBUTES = %i[title task_owner_id assigned_user_id]
 
   MAX_TITLE_LENGTH = 125
@@ -54,5 +56,9 @@ class Task < ApplicationRecord
       if will_save_change_to_slug? && self.persisted?
         errors.add(:slug, I18n.t("task.slug.immutable"))
       end
+    end
+
+    def log_task_details
+      TaskLoggerJob.perform_async(self.id)
     end
 end

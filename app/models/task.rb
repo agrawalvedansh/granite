@@ -2,17 +2,13 @@
 
 class Task < ApplicationRecord
   RESTRICTED_ATTRIBUTES = %i[title task_owner_id assigned_user_id]
-
   MAX_TITLE_LENGTH = 125
   VALID_TITLE_REGEX = /\A.*[a-zA-Z0-9].*\z/i
-
   enum :progress, { pending: "pending", completed: "completed" }, default: :pending
   enum :status, { unstarred: "unstarred", starred: "starred" }, default: :unstarred
-
   belongs_to :task_owner, foreign_key: "task_owner_id", class_name: "User"
   belongs_to :assigned_user, foreign_key: "assigned_user_id", class_name: "User"
   has_many :comments, dependent: :destroy
-
   validates :title,
     presence: true,
     length: { maximum: MAX_TITLE_LENGTH },
@@ -20,6 +16,7 @@ class Task < ApplicationRecord
   validates :slug,
     uniqueness: true
   validate :slug_not_changed
+  after_create :log_task_details
 
   before_create :set_slug
 
@@ -54,5 +51,9 @@ class Task < ApplicationRecord
       if will_save_change_to_slug? && self.persisted?
         errors.add(:slug, I18n.t("task.slug.immutable"))
       end
+    end
+
+    def log_task_details
+      TaskLoggerJob.perform_async(self.id)
     end
 end

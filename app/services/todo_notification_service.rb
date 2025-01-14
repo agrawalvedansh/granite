@@ -26,7 +26,7 @@ class TodoNotificationService
 
     def get_users_with_pending_tasks
       User.includes(:assigned_tasks, :preference).where(
-        tasks: { progress: 'pending' },
+        tasks: { progress: "pending" },
         preferences: {
           should_receive_email: true,
           notification_delivery_hour: hours_till_now

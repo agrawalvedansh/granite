@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TaskMailer < ApplicationMailer
   after_action :create_user_notification, if: -> { !params&.[](:preview) && @receiver }
 

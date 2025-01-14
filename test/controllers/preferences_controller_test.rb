@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class PreferencesControllerTest < ActionDispatch::IntegrationTest
@@ -33,7 +35,8 @@ class PreferencesControllerTest < ActionDispatch::IntegrationTest
 
     put preference_path, params: preference_params, headers: @headers
     assert_response :unprocessable_entity
-    assert_equal "Notification delivery hour #{I18n.t("preference.notification_delivery_hour.range")}", response.parsed_body["error"]
+    assert_equal "Notification delivery hour #{I18n.t("preference.notification_delivery_hour.range")}",
+      response.parsed_body["error"]
   end
 
   def test_update_success_mail

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 if Rails.env.test? || Rails.env.heroku?
-  require 'sidekiq/testing'
+  require "sidekiq/testing"
   Sidekiq::Testing.inline!
 end
 
 Sidekiq.configure_server do |config|
-  config.redis = { url:  Rails.application.secrets.redis_url, size: 9 }
+  config.redis = { url: Rails.application.secrets.redis_url, size: 9 }
   unless Rails.env.test? || Rails.env.production?
     schedule_file = "config/scheduled_jobs.yml"
 

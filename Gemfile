@@ -97,4 +97,4 @@ gem "sidekiq", "<7"
 gem "sidekiq-cron"
 
 # For opening mails in development env
-gem "letter_opener", :group => :development
+gem "letter_opener", group: :development

@@ -12,7 +12,7 @@ gem "rails", "~> 7.0.5"
 gem "sprockets-rails"
 
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+gem "sqlite3", "~> 1.4", group: [:development, :test]
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -98,3 +98,5 @@ gem "sidekiq-cron"
 
 # For opening mails in development env
 gem "letter_opener", group: :development
+
+gem "pg", group: [:production]

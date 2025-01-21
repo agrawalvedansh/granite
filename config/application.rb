@@ -10,6 +10,9 @@ Bundler.require(*Rails.groups)
 
 module Granite
   class Application < Rails::Application
+    # Load dotenv file
+    Dotenv::Railtie.load
+
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
     config.generators do |g|
